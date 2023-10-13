@@ -17,8 +17,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-ci.txt -r requirements.txt
-        pip install setuptools wheel twine pdoc3
+        pip install setuptools wheel
+
+    - name: Run tests
+      run: |
+        python3 tests.py
 
     - name: Build and publish
       env:
@@ -28,9 +31,3 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
-
-    - name: Rebuild documentation
-      run: |
-        pdoc --html src/pytemplate/ --force --output-dir docs
-        mv docs/pytemplate/* docs/
-        rm -r docs/pytemplate
